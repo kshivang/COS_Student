@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "930815695352",
+    "firebase_url": "https://campusorderingsystem.firebaseio.com",
+    "project_id": "campusorderingsystem",
+    "storage_bucket": "campusorderingsystem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930815695352:android:86b1278b6eac6310",
+        "android_client_info": {
+          "package_name": "org.invincible.cosstudent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930815695352-3d1l0cbf8i0mhsobrdmfrvrlqo61shk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.invincible.cosstudent",
+            "certificate_hash": "71AAE5C1191292E07D68F3D30C47D86F7E2A1BEA"
+          }
+        },
+        {
+          "client_id": "930815695352-lmmdm7m54undlt1qqifsd9uhh2lan6lv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByzUJuCbJoZSvGX0G60TYGMA9ae7r00WM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
