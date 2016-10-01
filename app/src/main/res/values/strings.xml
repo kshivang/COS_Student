@@ -32,9 +32,20 @@
     <string name="searchable_hint">Search anything</string>
     <string name="search">Search</string>
 
+
+    <string-array name="section">
+        <item>Food Store</item>
+        <item>General Store</item>
+        <item>Laundry</item>
+        <item>Xerox center</item>
+        <item>Academic</item>
+        <item>Other</item>
+    </string-array>
+
     <!--For Wizard-->
     <string name="next">Next</string>
     <string name="prev">Previous</string>
     <string name="submit">Submit</string>
     <string name="review">Review</string>
+    <string name="home">Home</string>
 </resources>

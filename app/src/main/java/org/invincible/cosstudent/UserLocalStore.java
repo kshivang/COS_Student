@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
-import org.invincible.cosstudent.misc.ProfileModel;
 import org.invincible.cosstudent.misc.StudentModel;
 
 /**
@@ -32,7 +31,7 @@ public class UserLocalStore {
         spEditor.apply();
     }
 
-    public void setSudentModel(StudentModel studentModel) {
+    public void setStudentModel(StudentModel studentModel) {
         SharedPreferences.Editor spEditor = userLocalDatabase.edit();
         Gson gson = new Gson();
         String studentInfo = gson.toJson(studentModel, StudentModel.class);
@@ -40,11 +39,11 @@ public class UserLocalStore {
         spEditor.apply();
     }
 
-    public ProfileModel getStudentModel() {
+    public StudentModel getStudentModel() {
         String profileInfo = userLocalDatabase.getString(KEY_STUDENT,"");
         Gson gson = new Gson();
         try {
-            return gson.fromJson(profileInfo, ProfileModel.class);
+            return gson.fromJson(profileInfo, StudentModel.class);
         }catch (Exception e){
             e.printStackTrace();
         }

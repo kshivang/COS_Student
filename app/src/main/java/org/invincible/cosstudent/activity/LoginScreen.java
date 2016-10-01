@@ -219,7 +219,7 @@ public class LoginScreen extends AppCompatActivity {
                             // Write new post
                             userLocalStore.setID(userId, dataSnapshot
                                     .child("campus_id").getValue(String.class));
-                            userLocalStore.setSudentModel(studentModel);
+                            userLocalStore.setStudentModel(studentModel);
                         }
                         // Finish this Activity, back to the stream
                         finish();

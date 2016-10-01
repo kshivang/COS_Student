@@ -10,6 +10,7 @@ public class StudentModel {
     private String email;
     private String key;
     private String campus_name;
+    private String image_url;
     private int roll;
 
     public String getCampus_id() {
@@ -58,5 +59,13 @@ public class StudentModel {
 
     public void setCampus_name(String campus_name) {
         this.campus_name = campus_name;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 }
