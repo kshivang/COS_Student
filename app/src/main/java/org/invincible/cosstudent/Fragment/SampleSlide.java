@@ -1,4 +1,4 @@
-package org.invincible.cosstudent;
+package org.invincible.cosstudent.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

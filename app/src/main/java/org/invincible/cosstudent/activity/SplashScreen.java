@@ -7,7 +7,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.UserLocalStore;
+import org.invincible.cosstudent.misc.UserLocalStore;
 import org.invincible.cosstudent.appIntro.BriefIntro;
 
 /**

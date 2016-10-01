@@ -1,11 +1,11 @@
-package org.invincible.cosstudent;
+package org.invincible.cosstudent.misc;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
-import org.invincible.cosstudent.misc.StudentModel;
+import org.invincible.cosstudent.BuildConfig;
 
 /**
  * Created by kshivang on 05/09/16.

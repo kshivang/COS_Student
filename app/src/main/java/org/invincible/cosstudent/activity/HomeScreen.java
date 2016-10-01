@@ -31,7 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import org.invincible.cosstudent.Fragment.SectionFragment;
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.UserLocalStore;
+import org.invincible.cosstudent.misc.UserLocalStore;
 import org.invincible.cosstudent.misc.StudentModel;
 
 import java.util.Locale;

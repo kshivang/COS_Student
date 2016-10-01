@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.UserLocalStore;
+import org.invincible.cosstudent.misc.UserLocalStore;
 import org.invincible.cosstudent.misc.Constants;
 import org.invincible.cosstudent.misc.StudentModel;
 import org.invincible.cosstudent.misc.TextHandler;

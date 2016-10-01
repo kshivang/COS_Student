@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import org.invincible.cosstudent.activity.LoginScreen;
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.SampleSlide;
+import org.invincible.cosstudent.Fragment.SampleSlide;
 
 
 public class BriefIntro extends BaseAppIntro {
