@@ -42,10 +42,24 @@
         <item>Other</item>
     </string-array>
 
+    <string name="rupee">₹</string>
+
     <!--For Wizard-->
     <string name="next">Next</string>
     <string name="prev">Previous</string>
-    <string name="submit">Submit</string>
+    <string name="finish">Submit order</string>
     <string name="review">Review</string>
+
+    <string name="label_your_name">Name</string>
+    <string name="label_your_email">Email</string>
+    <string name="hint_your_name">e.g. Larry</string>
+    <string name="hint_your_email">Optional</string>
+
+    <string name="submit_confirm_message">Place the order with the deli? You will receive an email
+        confirmation.</string>
+    <string name="submit_confirm_button">Place order</string>
     <string name="home">Home</string>
+    <string name="settled">Settled</string>
+    <string name="unsettled">Unsettled</string>
+    <string name="please_wait">Please Wait</string>
 </resources>

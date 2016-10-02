@@ -78,6 +78,10 @@ public class UserLocalStore {
     }
 
 
+    public String getEmail() {
+        return userLocalDatabase.getString(KEY_EMAIL, "");
+    }
+
     public boolean isFirstRun() {
         return userLocalDatabase.getBoolean(KEY_FIRST_RUN,true);
     }

@@ -31,10 +31,12 @@ import com.squareup.picasso.Picasso;
 
 import org.invincible.cosstudent.Fragment.SectionFragment;
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.misc.UserLocalStore;
 import org.invincible.cosstudent.misc.StudentModel;
+import org.invincible.cosstudent.misc.UserLocalStore;
 
 import java.util.Locale;
+
+import static org.invincible.cosstudent.R.array.section;
 
 /**
  * Created by kshivang on 01/10/16.
@@ -50,7 +52,6 @@ public class HomeScreen extends AppCompatActivity
     private TextView profileTId, profileName;
     private ImageView profileImage;
     private ViewPager mViewPager;
-
     @Override
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
@@ -95,27 +96,26 @@ public class HomeScreen extends AppCompatActivity
             });
         }
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.primary_tabs);
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.primary_tabs);
         mViewPager = (ViewPager) findViewById(R.id.container);
 
-        final String[] section = getResources().getStringArray(R.array.section);
+        final String[] sections = getResources().getStringArray(section);
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                if (section[position] != null)
-                    return SectionFragment.newInstance(section[position]);
+                if (position < sections.length) return SectionFragment.newInstance(sections[position]);
                 return null;
             }
 
             @Override
             public int getCount() {
-                return section.length;
+                return sections.length;
             }
 
             @Override
             public CharSequence getPageTitle(int position) {
-                if (section[position] != null) return section[position];
+                if (sections[position] != null) return sections[position];
                 return null;
             }
         };
@@ -123,6 +123,8 @@ public class HomeScreen extends AppCompatActivity
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager);
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -135,13 +137,14 @@ public class HomeScreen extends AppCompatActivity
                 mViewPager.setCurrentItem(0, true);
 //                startActivity(new Intent(HomeScreen.this, ProfileScreen.class));
                 break;
-            case R.id.profile:
-//                startActivity(new Intent(HomeScreen.this, SchoolInfoScreen.class));
-                break;
+//            case R.id.profile:
+////                startActivity(new Intent(HomeScreen.this, SchoolInfoScreen.class));
+//                break;
             case R.id.changePassword:
+                startActivity(new Intent(HomeScreen.this, ChangePasswordScreen.class));
                 break;
             case R.id.help:
-//                startActivity(new Intent(HomeScreen.this, HelpScreen.class));
+                startActivity(new Intent(HomeScreen.this, HelpScreen.class));
                 break;
             case R.id.logout:
                 onLogout();
@@ -174,10 +177,15 @@ public class HomeScreen extends AppCompatActivity
                 });
     }
 
+    private void onSectionContentListener() {
+
+    }
+
 
     public StudentModel getStudentModel() {
         return studentModel;
     }
+
 
     private void onLogout() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
