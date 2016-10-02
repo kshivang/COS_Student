@@ -23,7 +23,6 @@ import org.invincible.cosstudent.wizard.model.BranchPage;
 import org.invincible.cosstudent.wizard.model.CustomerInfoPage;
 import org.invincible.cosstudent.wizard.model.MultipleFixedChoicePage;
 import org.invincible.cosstudent.wizard.model.PageList;
-import org.invincible.cosstudent.wizard.model.SingleFixedChoicePage;
 
 
 public class SandwichWizardModel extends AbstractWizardModel {
@@ -34,43 +33,25 @@ public class SandwichWizardModel extends AbstractWizardModel {
     @Override
     protected PageList onNewRootPageList() {
         return new PageList(
-                new BranchPage(this, "Order type")
-                        .addBranch("Sandwich",
-                                new SingleFixedChoicePage(this, "Bread")
-                                        .setChoices("White", "Wheat", "Rye", "Pretzel", "Ciabatta")
-                                        .setRequired(true),
-
-                                new MultipleFixedChoicePage(this, "Meats")
-                                        .setChoices("Pepperoni", "Turkey", "Ham", "Pastrami",
-                                                "Roast Beef", "Bologna"),
-
-                                new MultipleFixedChoicePage(this, "Veggies")
-                                        .setChoices("Tomatoes", "Lettuce", "Onions", "Pickles",
-                                                "Cucumbers", "Peppers"),
-
-                                new MultipleFixedChoicePage(this, "Cheeses")
-                                        .setChoices("Swiss", "American", "Pepperjack", "Muenster",
-                                                "Provolone", "White American", "Cheddar", "Bleu"),
-
-                                new BranchPage(this, "Toasted?")
-                                        .addBranch("Yes",
-                                                new SingleFixedChoicePage(this, "Toast time")
-                                                        .setChoices("30 seconds", "1 minute",
-                                                                "2 minutes"))
-                                        .addBranch("No")
+                new BranchPage(this, "Menu")
+                        .addBranch("Snack",
+                                new BranchPage(this, "Snacks")
+                                        .addBranch("Burger",
+                                                new MultipleFixedChoicePage(this, "Burger")
+                                                        .setChoices("Aloo Tikka", "Chicken"))
+                                        .addBranch("Pizza", new MultipleFixedChoicePage(this, "Pizzas")
+                                        .setChoices("Farm House", "Marghitta"))
+                                        .addBranch("Sandwich", new MultipleFixedChoicePage(this, "Sandwich")
+                                        .setChoices("Cheese", "Regular"))
                                         .setValue("No"))
-
-                        .addBranch("Salad",
-                                new SingleFixedChoicePage(this, "Salad type")
-                                        .setChoices("Greek", "Caesar")
-                                        .setRequired(true),
-
-                                new SingleFixedChoicePage(this, "Dressing")
-                                        .setChoices("No dressing", "Balsamic", "Oil & vinegar",
-                                                "Thousand Island", "Italian")
-                                        .setValue("No dressing")
-                        )
-
+                        .addBranch("Main Course",
+                                new BranchPage(this, "MainCourse")
+                                        .addBranch("Paneer",
+                                                new MultipleFixedChoicePage(this, "Paneer")
+                                                        .setChoices("Paneer Passanda", "Sahi Paneer"))
+                                        .addBranch("Chicken", new MultipleFixedChoicePage(this, "Chicken")
+                                                .setChoices("Chicken Curry", "Butter Chicken"))
+                                        .setValue("No"))
                         .setRequired(true),
 
                 new CustomerInfoPage(this, "Your info")

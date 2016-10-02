@@ -17,7 +17,7 @@
         android:textColor="#ffffff"
         android:paddingRight="32dp"
         android:textSize="28sp"
-        android:text="2. Test Series !"/>
+        android:text="2. One for all!"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -44,7 +44,7 @@
         android:paddingLeft="64dp"
         android:paddingRight="64dp"
         android:textSize="20sp"
-        android:text="Frequent test series of all subject at one place"/>
+        android:text="Complete billing system in one place."/>
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="64dp" />
