@@ -49,6 +49,11 @@
             android:parentActivityName=".activity.HomeScreen"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".activity.ChangePasswordScreen"
+            android:label="Help"
+            android:parentActivityName=".activity.HomeScreen"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>
