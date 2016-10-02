@@ -34,26 +34,10 @@ public class SandwichWizardModel extends AbstractWizardModel {
     protected PageList onNewRootPageList() {
         return new PageList(
                 new BranchPage(this, "Menu")
-                        .addBranch("Snack",
-                                new BranchPage(this, "Snacks")
-                                        .addBranch("Burger",
-                                                new MultipleFixedChoicePage(this, "Burger")
-                                                        .setChoices("Aloo Tikka", "Chicken"))
-                                        .addBranch("Pizza", new MultipleFixedChoicePage(this, "Pizzas")
-                                        .setChoices("Farm House", "Marghitta"))
-                                        .addBranch("Sandwich", new MultipleFixedChoicePage(this, "Sandwich")
-                                        .setChoices("Cheese", "Regular"))
-                                        .setValue("No"))
-                        .addBranch("Main Course",
-                                new BranchPage(this, "MainCourse")
-                                        .addBranch("Paneer",
-                                                new MultipleFixedChoicePage(this, "Paneer")
-                                                        .setChoices("Paneer Passanda", "Sahi Paneer"))
-                                        .addBranch("Chicken", new MultipleFixedChoicePage(this, "Chicken")
-                                                .setChoices("Chicken Curry", "Butter Chicken"))
-                                        .setValue("No"))
-                        .setRequired(true),
-
+                        .addBranch("Snack", new MultipleFixedChoicePage(this, "Burger")
+                        .setChoices("Sandwich  -  Rs.20", "Burger  -  Rs.25", "Pizza  -  Rs.75"))
+                        .addBranch("Main Course", new MultipleFixedChoicePage(this, "Main Course")
+                        .setChoices("Biryani  -  Rs.100", "Paneer Pasanda  -  Rs.45")),
                 new CustomerInfoPage(this, "Your info")
                         .setRequired(true)
         );

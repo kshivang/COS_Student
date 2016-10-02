@@ -16,6 +16,7 @@
 
 package org.invincible.cosstudent.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,13 +28,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.invincible.cosstudent.R;
+import org.invincible.cosstudent.misc.MenuItem;
+import org.invincible.cosstudent.misc.Outlet;
 import org.invincible.cosstudent.wizard.model.AbstractWizardModel;
+import org.invincible.cosstudent.wizard.model.BranchPage;
 import org.invincible.cosstudent.wizard.model.ModelCallbacks;
 import org.invincible.cosstudent.wizard.model.Page;
+import org.invincible.cosstudent.wizard.model.PageList;
 import org.invincible.cosstudent.wizard.ui.PageFragmentCallbacks;
 import org.invincible.cosstudent.wizard.ui.ReviewFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderScreen extends FragmentActivity implements
@@ -46,7 +57,7 @@ public class OrderScreen extends FragmentActivity implements
 
     private boolean mEditingAfterReview;
 
-    private AbstractWizardModel mWizardModel = new SandwichWizardModel(this);
+    private AbstractWizardModel mWizardModel;
 
     private boolean mConsumePageSelectedEvent;
 
@@ -54,10 +65,68 @@ public class OrderScreen extends FragmentActivity implements
     private Button mPrevButton;
 
     private List<Page> mCurrentPageSequence;
+    private Outlet outlet;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        Intent fromIntent = getIntent();
+        outlet = (Outlet)fromIntent.getSerializableExtra("outlet");
+
+        onServerRequest(savedInstanceState);
+
+
+
+        mNextButton = (Button) findViewById(R.id.next_button);
+        mPrevButton = (Button) findViewById(R.id.prev_button);
+
+
+
+
+    }
+
+    private List<List<MenuItem>> menus = new ArrayList<>();
+
+    private void onServerRequest(final Bundle savedInstanceState) {
+
+        FirebaseDatabase.getInstance().getReference().child("restaurant")
+                .child(outlet.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null) {
+                    boolean firstIlteration = true;
+                    for (DataSnapshot menu : dataSnapshot.child("menu").getChildren()) {
+                        int i = 0;
+                        for (DataSnapshot item : menu.child("submenu").getChildren()) {
+                            if (firstIlteration) {
+                                menus.add(new ArrayList<MenuItem>());
+                            }
+
+                            MenuItem menuItem = item.getValue(MenuItem.class);
+                            menuItem.setMenu(menu.child("name").getValue(String.class));
+                            menus.get(i).add(menuItem);
+                            i++;
+                        }
+                        firstIlteration = false;
+                    }
+                    afterMenuFetch(savedInstanceState);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void afterMenuFetch (Bundle savedInstanceState) {
+
+//        mWizardModel = new MainMenu();
+        mWizardModel = new SandwichWizardModel(this);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -68,9 +137,6 @@ public class OrderScreen extends FragmentActivity implements
         mPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
-
-        mNextButton = (Button) findViewById(R.id.next_button);
-        mPrevButton = (Button) findViewById(R.id.prev_button);
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
@@ -253,6 +319,28 @@ public class OrderScreen extends FragmentActivity implements
 
         public int getCutOffPage() {
             return mCutOffPage;
+        }
+    }
+
+    public class MainMenu extends AbstractWizardModel {
+        public MainMenu() {
+            super(OrderScreen.this);
+        }
+
+        @Override
+        protected PageList onNewRootPageList() {
+            BranchPage branchPage = new BranchPage(this, "Menu");
+            int i = 0;
+            for (List<MenuItem> menuItems : menus) {
+                ArrayList<String> item = new ArrayList<>();
+                for (MenuItem items: menuItems) {
+                    item.add(items.getName() + " " + items.getPrice());
+                }
+                branchPage.addBranch(menuItems.get(0).getMenu()).setChoices(item);
+                i++;
+            }
+
+            return new PageList(branchPage);
         }
     }
 }

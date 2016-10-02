@@ -7,6 +7,7 @@ import org.invincible.cosstudent.wizard.ui.SingleChoiceFragment;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * A page offering the user a number of mutually exclusive choices.
@@ -39,6 +40,11 @@ public class SingleFixedChoicePage extends Page {
     @Override
     public boolean isCompleted() {
         return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
+    }
+
+    public SingleFixedChoicePage setChoices(List<String> choices) {
+        mChoices.addAll(choices);
+        return this;
     }
 
     public SingleFixedChoicePage setChoices(String... choices) {

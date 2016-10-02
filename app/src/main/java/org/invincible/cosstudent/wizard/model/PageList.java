@@ -10,7 +10,11 @@ public class PageList extends ArrayList<Page> implements PageTreeNode {
     public PageList() {
         
     }
-    
+
+    public PageList(ArrayList<Page> pages) {
+        addAll(pages);
+    }
+
     public PageList(Page... pages) {
         for (Page page : pages) {
             add(page);
