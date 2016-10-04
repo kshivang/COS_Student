@@ -33,7 +33,7 @@ public class SandwichWizardModel extends AbstractWizardModel {
     @Override
     protected PageList onNewRootPageList() {
         return new PageList(
-                new BranchPage(this, "Menu")
+                new BranchPage(this, "MenuFragment")
                         .addBranch("Snack", new MultipleFixedChoicePage(this, "Burger")
                         .setChoices("Sandwich  -  Rs.20", "Burger  -  Rs.25", "Pizza  -  Rs.75"))
                         .addBranch("Main Course", new MultipleFixedChoicePage(this, "Main Course")

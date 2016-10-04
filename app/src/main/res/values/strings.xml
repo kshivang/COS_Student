@@ -62,4 +62,5 @@
     <string name="settled">Settled</string>
     <string name="unsettled">Unsettled</string>
     <string name="please_wait">Please Wait</string>
+    <string name="menu">Menu</string>
 </resources>

@@ -3,7 +3,6 @@ package org.invincible.cosstudent.wizard.ui;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +21,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ReviewFragment extends ListFragment implements ModelCallbacks {
+/**
+ * Created by kshivang on 04/10/16.
+ */
+
+public class MenuFragment extends ListFragment implements ModelCallbacks {
     private Callbacks mCallbacks;
     private AbstractWizardModel mWizardModel;
     private List<ReviewItem> mCurrentReviewItems;
 
     private ReviewAdapter mReviewAdapter;
 
-    public ReviewFragment() {
+    public MenuFragment() {
     }
 
     @Override
@@ -44,7 +47,7 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         View rootView = inflater.inflate(R.layout.fragment_page, container, false);
 
         TextView titleView = (TextView) rootView.findViewById(android.R.id.title);
-        titleView.setText(R.string.review);
+        titleView.setText(R.string.menu);
         titleView.setTextColor(getResources().getColor(R.color.review_green));
 
         ListView listView = (ListView) rootView.findViewById(android.R.id.list);
@@ -102,12 +105,12 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        mCallbacks.onEditScreenAfterReview(mCurrentReviewItems.get(position).getPageKey());
+        mCallbacks.onEditScreenAfterMenu(mCurrentReviewItems.get(position).getPageKey());
     }
 
     public interface Callbacks {
         AbstractWizardModel onGetModel();
-        void onEditScreenAfterReview(String pageKey);
+        void onEditScreenAfterMenu(String pageKey);
     }
 
     private class ReviewAdapter extends BaseAdapter {
@@ -144,20 +147,16 @@ public class ReviewFragment extends ListFragment implements ModelCallbacks {
         @Override
         public View getView(int position, View view, ViewGroup container) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            View rootView = inflater.inflate(R.layout.list_item_review, container, false);
+            View rootView = inflater.inflate(R.layout.list_item_menu, container, false);
 
             ReviewItem reviewItem = mCurrentReviewItems.get(position);
-            String value = reviewItem.getDisplayValue();
-            if (TextUtils.isEmpty(value)) {
-                value = "(None)";
-            }
             ((TextView) rootView.findViewById(android.R.id.text1)).setText(reviewItem.getTitle());
-            ((TextView) rootView.findViewById(android.R.id.text2)).setText(value);
             return rootView;
         }
 
         @Override
         public int getCount() {
+            if (mCurrentReviewItems == null) return 0;
             return mCurrentReviewItems.size();
         }
     }
