@@ -44,6 +44,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930815695352:android:b3730eae5eeb845d",
+        "android_client_info": {
+          "package_name": "org.invincible.cosseller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930815695352-lmmdm7m54undlt1qqifsd9uhh2lan6lv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByzUJuCbJoZSvGX0G60TYGMA9ae7r00WM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"

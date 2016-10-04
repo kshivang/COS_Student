@@ -37,8 +37,9 @@ import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.misc.MenuItem;
 import org.invincible.cosstudent.misc.Outlet;
 import org.invincible.cosstudent.wizard.model.AbstractWizardModel;
-import org.invincible.cosstudent.wizard.model.BranchPage;
+import org.invincible.cosstudent.wizard.model.CustomerInfoPage;
 import org.invincible.cosstudent.wizard.model.ModelCallbacks;
+import org.invincible.cosstudent.wizard.model.MultipleFixedChoicePage;
 import org.invincible.cosstudent.wizard.model.Page;
 import org.invincible.cosstudent.wizard.model.PageList;
 import org.invincible.cosstudent.wizard.ui.PageFragmentCallbacks;
@@ -77,13 +78,8 @@ public class OrderScreen extends FragmentActivity implements
 
         onServerRequest(savedInstanceState);
 
-
-
         mNextButton = (Button) findViewById(R.id.next_button);
         mPrevButton = (Button) findViewById(R.id.prev_button);
-
-
-
 
     }
 
@@ -92,24 +88,19 @@ public class OrderScreen extends FragmentActivity implements
     private void onServerRequest(final Bundle savedInstanceState) {
 
         FirebaseDatabase.getInstance().getReference().child("restaurant")
-                .child(outlet.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                .child(outlet.getKey()).child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
-                    boolean firstIlteration = true;
-                    for (DataSnapshot menu : dataSnapshot.child("menu").getChildren()) {
-                        int i = 0;
+                    int i = 0;
+                    for (DataSnapshot menu : dataSnapshot.getChildren()) {
+                        menus.add(i, new ArrayList<MenuItem>());
                         for (DataSnapshot item : menu.child("submenu").getChildren()) {
-                            if (firstIlteration) {
-                                menus.add(new ArrayList<MenuItem>());
-                            }
-
                             MenuItem menuItem = item.getValue(MenuItem.class);
                             menuItem.setMenu(menu.child("name").getValue(String.class));
                             menus.get(i).add(menuItem);
-                            i++;
                         }
-                        firstIlteration = false;
+                        i++;
                     }
                     afterMenuFetch(savedInstanceState);
                 }
@@ -125,8 +116,8 @@ public class OrderScreen extends FragmentActivity implements
 
     public void afterMenuFetch (Bundle savedInstanceState) {
 
-//        mWizardModel = new MainMenu();
-        mWizardModel = new SandwichWizardModel(this);
+        mWizardModel = new MainMenu();
+//        mWizardModel = new SandwichWizardModel(this);
 
         if (savedInstanceState != null) {
             mWizardModel.load(savedInstanceState.getBundle("model"));
@@ -329,18 +320,22 @@ public class OrderScreen extends FragmentActivity implements
 
         @Override
         protected PageList onNewRootPageList() {
-            BranchPage branchPage = new BranchPage(this, "Menu");
-            int i = 0;
+            PageList pageMenu = new PageList();
+
+//            MultipleFixedChoicePage multipleFixedChoicePage = new MultipleFixedChoicePage(this, "Menu");
+
             for (List<MenuItem> menuItems : menus) {
                 ArrayList<String> item = new ArrayList<>();
                 for (MenuItem items: menuItems) {
-                    item.add(items.getName() + " " + items.getPrice());
+                    item.add(items.getName() + " -  " + getString(R.string.rupee) + items.getPrice());
                 }
-                branchPage.addBranch(menuItems.get(0).getMenu()).setChoices(item);
-                i++;
+                String submenuTitle = menuItems.get(0).getMenu();
+                pageMenu.add(new MultipleFixedChoicePage(this, submenuTitle)
+                        .setChoices(item));
             }
 
-            return new PageList(branchPage);
+            pageMenu.add(new CustomerInfoPage(this, "Your Info").setRequired(true));
+            return pageMenu;
         }
     }
 }
