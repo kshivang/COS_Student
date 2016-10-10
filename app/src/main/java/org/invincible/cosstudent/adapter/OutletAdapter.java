@@ -1,4 +1,4 @@
-package org.invincible.cosstudent;
+package org.invincible.cosstudent.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.activity.HistoryScreen;
 import org.invincible.cosstudent.activity.OrderScreen;
 import org.invincible.cosstudent.misc.Outlet;

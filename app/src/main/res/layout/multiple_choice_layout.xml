@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/listPreferredItemHeightSmall"
+    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+    >
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/text1"
+        android:layout_toLeftOf="@+id/price"
+        android:layout_toStartOf="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        />
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="80dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:text="Price"
+        android:layout_toLeftOf="@+id/qty"
+        android:layout_toStartOf="@+id/qty"
+        />
+
+    <TextView
+        android:id="@+id/qty"
+        android:layout_width="80dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:maxLines="1"
+        android:text="Quantity"
+        android:layout_toLeftOf="@+id/checkbox"
+        android:layout_toStartOf="@+id/checkbox"
+        />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:visibility="invisible"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        />
+
+</RelativeLayout>

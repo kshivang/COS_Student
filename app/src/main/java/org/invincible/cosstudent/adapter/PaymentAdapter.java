@@ -1,4 +1,4 @@
-package org.invincible.cosstudent;
+package org.invincible.cosstudent.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.misc.OrderModel;
 
 import java.util.List;
@@ -57,10 +58,14 @@ public class PaymentAdapter  extends RecyclerView.Adapter<PaymentAdapter.CustomV
                     mContext.getString(R.string.rupee), order.getTotal_price()));
             //Handle click event on both title and image click
             customViewHolder.time.setText((HrToAMPM(order.getBillId().substring(6))));
+
+            customViewHolder.item_name.setText(order.getName());
+            customViewHolder.price.setText(String.format("%s%s", mContext.getString(R.string.rupee), String.valueOf(order.getPrice())));
+            customViewHolder.quantity.setText(String.valueOf(order.getQty()));
         } else {
             customViewHolder.total.setVisibility(View.GONE);
             customViewHolder.item_name.setText(order.getName());
-            customViewHolder.price.setText(String.valueOf(order.getPrice()));
+            customViewHolder.price.setText(String.format("%s%s", mContext.getString(R.string.rupee), String.valueOf(order.getPrice())));
             customViewHolder.quantity.setText(String.valueOf(order.getQty()));
         }
     }

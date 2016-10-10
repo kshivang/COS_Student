@@ -2,6 +2,7 @@
 
 package org.invincible.cosstudent.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -23,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.misc.MenuItem;
 import org.invincible.cosstudent.misc.Outlet;
+import org.invincible.cosstudent.misc.UserLocalStore;
 import org.invincible.cosstudent.wizard.model.AbstractWizardModel;
 import org.invincible.cosstudent.wizard.model.ModelCallbacks;
 import org.invincible.cosstudent.wizard.model.MultipleFixedChoicePage;
@@ -32,8 +35,12 @@ import org.invincible.cosstudent.wizard.ui.MenuFragment;
 import org.invincible.cosstudent.wizard.ui.PageFragmentCallbacks;
 import org.invincible.cosstudent.wizard.ui.ReviewFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class OrderScreen extends AppCompatActivity implements
         PageFragmentCallbacks,
@@ -45,8 +52,6 @@ public class OrderScreen extends AppCompatActivity implements
     private MyPagerAdapter mPagerAdapter;
 
     private boolean mEditingAfterReview;
-
-    private boolean mEditingAfterMenu;
 
     private AbstractWizardModel mWizardModel;
 
@@ -153,7 +158,7 @@ public class OrderScreen extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
                 if (mPager.getCurrentItem() == mCurrentPageSequence.size() + 1) {
-
+                    onPlaceOrder();
                 } else {
                     if (mEditingAfterReview) {
                         mPager.setCurrentItem(mPagerAdapter.getCount() - 1);
@@ -178,7 +183,6 @@ public class OrderScreen extends AppCompatActivity implements
     @Override
     public void onPageTreeChanged() {
         mCurrentPageSequence = mWizardModel.getCurrentPageSequence();
-//        recalculateCutOffPage();
         mPagerAdapter.notifyDataSetChanged();
         updateBottomBar();
     }
@@ -246,10 +250,8 @@ public class OrderScreen extends AppCompatActivity implements
     @Override
     public void onPageDataChanged(Page page) {
         if (page.isRequired()) {
-//            if (recalculateCutOffPage()) {
-                mPagerAdapter.notifyDataSetChanged();
-                updateBottomBar();
-//            }
+            mPagerAdapter.notifyDataSetChanged();
+            updateBottomBar();
         }
     }
 
@@ -258,30 +260,72 @@ public class OrderScreen extends AppCompatActivity implements
         return mWizardModel.findByKey(key);
     }
 
-//    private boolean recalculateCutOffPage() {
-//        // Cut off the pager adapter at first required page that isn't completed
-//        int cutOffPage = mCurrentPageSequence.size() + 1;
-//        for (int i = 0; i < mCurrentPageSequence.size(); i++) {
-//            Page page = mCurrentPageSequence.get(i);
-//            if (page.isRequired() && !page.isCompleted()) {
-//                cutOffPage = i;
-//                break;
-//            }
-//        }
-//
-//        if (mPagerAdapter.getCutOffPage() != cutOffPage) {
-//            mPagerAdapter.setCutOffPage(cutOffPage);
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    private HashMap<String, Object> onBill() {
+        HashMap<String, Object> bill =  new HashMap<>();
+        HashMap<Integer, Object> itemOrder = new HashMap<>();
+        bill.put("status", "paid");
+        int totalPrice = 0;
+        for (int i = 0; i < mCurrentPageSequence.size(); i++) {
+            String object = mCurrentPageSequence.get(i).getData().getString(Page.SIMPLE_DATA_KEY);
+            if (object != null && object.indexOf("-") > 0) {
+                String name = object.substring(0, object.indexOf("-"));
+                Integer price = Integer.parseInt(object.substring(object.indexOf(getString(R.string.rupee) + 1)));
+                totalPrice = totalPrice + price;
+                HashMap<String, Object> item = new HashMap<>();
+                item.put("name", name);
+                item.put("price", price);
+                item.put("qty", 1);
+                itemOrder.put(i, item);
+            }
+        }
+        bill.put("total_price", totalPrice);
+        bill.put("bill", itemOrder);
+        return bill;
+    }
+
+
+    HashMap<String, Object> bill = new HashMap<>();
+    private void onPlaceOrder() {
+        Calendar c = Calendar.getInstance();
+
+        SimpleDateFormat df = new SimpleDateFormat("ddMMyyyyHHmmss", Locale.ENGLISH);
+        String formattedDate = df.format(c.getTime());
+
+        bill.put(formattedDate, onBill());
+
+        final UserLocalStore userLocalStore = new UserLocalStore(this);
+         new android.support.v7.app.AlertDialog
+                 .Builder(OrderScreen.this)
+                 .setNegativeButton("Recheck", new DialogInterface.OnClickListener() {
+                     @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                 })
+                 .setTitle("Confirm Order")
+                 .setMessage("Are you sure you want to place order?")
+                 .setPositiveButton("Place", new DialogInterface.OnClickListener() {
+                     @Override
+                     public void onClick(final DialogInterface dialog, int which) {
+                         dialog.dismiss();
+                         FirebaseDatabase.getInstance().getReference()
+                                 .child("billing").child(outlet.getKey())
+                                 .child(userLocalStore.getUid())
+                                 .updateChildren(bill).addOnSuccessListener(new OnSuccessListener<Void>() {
+                             @Override
+                             public void onSuccess(Void aVoid) {
+                                 dialog.dismiss();
+                                 finish();
+                             }
+                         });
+                     }
+                }).create().show();
+    }
 
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
-        private int mCutOffPage;
         private Fragment mPrimaryItem;
 
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -301,7 +345,6 @@ public class OrderScreen extends AppCompatActivity implements
                 // Re-use the current fragment (its position never changes)
                 return POSITION_UNCHANGED;
             }
-
             return POSITION_NONE;
         }
 
@@ -317,23 +360,11 @@ public class OrderScreen extends AppCompatActivity implements
                 return 0;
             }
             return mCurrentPageSequence.size() + 2;
-//            return Math.min(mCutOffPage + 2, mCurrentPageSequence.size() + 2);
         }
-
-//        public void setCutOffPage(int cutOffPage) {
-//            if (cutOffPage < 0) {
-//                cutOffPage = Integer.MAX_VALUE;
-//            }
-//            mCutOffPage = cutOffPage;
-//        }
-
-//        public int getCutOffPage() {
-//            return mCutOffPage;
-//        }
     }
 
     public class MainMenu extends AbstractWizardModel {
-        public MainMenu() {
+        MainMenu() {
             super(OrderScreen.this);
         }
 
@@ -342,13 +373,8 @@ public class OrderScreen extends AppCompatActivity implements
             PageList pageMenu = new PageList();
 
             for (List<MenuItem> menuItems : menus) {
-                ArrayList<String> item = new ArrayList<>();
-                for (MenuItem items: menuItems) {
-                    item.add(items.getName() + " -  " + getString(R.string.rupee) + items.getPrice());
-                }
-                String submenuTitle = menuItems.get(0).getMenu();
-                pageMenu.add(new MultipleFixedChoicePage(this, submenuTitle)
-                        .setChoices(item));
+                pageMenu.add(new MultipleFixedChoicePage(this, menuItems.get(0).getMenu())
+                        .setChoices(menuItems));
             }
 
             return pageMenu;

@@ -3,17 +3,17 @@ package org.invincible.cosstudent.wizard.model;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+import org.invincible.cosstudent.misc.MenuItem;
 import org.invincible.cosstudent.wizard.ui.SingleChoiceFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * A page offering the user a number of mutually exclusive choices.
  */
 public class SingleFixedChoicePage extends Page {
-    protected ArrayList<String> mChoices = new ArrayList<String>();
+    protected ArrayList<MenuItem> mChoices = new ArrayList<>();
 
     public SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
@@ -25,7 +25,11 @@ public class SingleFixedChoicePage extends Page {
     }
 
     public String getOptionAt(int position) {
-        return mChoices.get(position);
+        return mChoices.get(position).getName();
+    }
+
+    public List<MenuItem> getMultipleChoices() {
+        return mChoices;
     }
 
     public int getOptionCount() {
@@ -42,15 +46,16 @@ public class SingleFixedChoicePage extends Page {
         return !TextUtils.isEmpty(mData.getString(SIMPLE_DATA_KEY));
     }
 
-    public SingleFixedChoicePage setChoices(List<String> choices) {
+    public SingleFixedChoicePage setChoices(List<MenuItem> choices) {
         mChoices.addAll(choices);
         return this;
     }
 
-    public SingleFixedChoicePage setChoices(String... choices) {
-        mChoices.addAll(Arrays.asList(choices));
-        return this;
-    }
+//    public SingleFixedChoicePage setChoices(String... choices) {
+//        for (String choice: choices)
+//            mChoices.add(new MultipleChoice(choice, 1, 0));
+//        return this;
+//    }
 
     public SingleFixedChoicePage setValue(String value) {
         mData.putString(SIMPLE_DATA_KEY, value);

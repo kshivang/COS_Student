@@ -16,7 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.invincible.cosstudent.PaymentAdapter;
+import org.invincible.cosstudent.adapter.PaymentAdapter;
 import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.misc.OrderModel;
 import org.invincible.cosstudent.misc.Outlet;
@@ -75,13 +75,10 @@ public class HistoryScreen extends AppCompatActivity{
                         progressBar.setVisibility(View.GONE);
                         tvLoading.setVisibility(View.GONE);
                         if(dataSnapshot != null) {
-                            boolean firstIteration = true;
+                            int i = 0;
                             for(DataSnapshot data: dataSnapshot.getChildren()) {
-                                int i = 0;
+                                orderModels.add(new ArrayList<OrderModel>());
                                 for(DataSnapshot order: data.child("bill").getChildren()) {
-                                    if (firstIteration) {
-                                        orderModels.add(new ArrayList<OrderModel>());
-                                    }
                                     OrderModel orderModel = order.getValue(OrderModel.class);
                                     orderModel.setKey(order.getKey());
                                     orderModel.setBillId(data.getKey());
@@ -90,9 +87,8 @@ public class HistoryScreen extends AppCompatActivity{
                                     orderModel.setTotal_price(data
                                             .child("total_price").getValue(Integer.class));
                                     orderModels.get(i).add(orderModel);
-                                    i++;
                                 }
-                                firstIteration = false;
+                                i++;
                             }
                             onBillShow();
                         }
@@ -126,12 +122,15 @@ public class HistoryScreen extends AppCompatActivity{
        totalSettled = 0;
        if (orderModels.size() > 0)  {
            List<OrderModel> orderModelListFlat = new ArrayList<>();
-           for (List<OrderModel> orderModelList: orderModels) {
-               orderModelListFlat.addAll(orderModelList);
-               OrderModel firstOrder = orderModelList.get(0);
-               totalTransactionWorth = totalTransactionWorth + firstOrder.getTotal_price();
-               if ( firstOrder.getStatus().equals("paid")) {
-                   totalSettled = totalSettled + firstOrder.getTotal_price();
+           for (int i = 0; i < orderModels.size(); i++) {
+               if (orderModels.get(i).size() > 0) {
+                   List<OrderModel> orderModelList = orderModels.get(i);
+                   orderModelListFlat.addAll(orderModelList);
+                   OrderModel firstOrder = orderModelList.get(0);
+                   totalTransactionWorth = totalTransactionWorth + firstOrder.getTotal_price();
+                   if (firstOrder.getStatus().equals("paid")) {
+                       totalSettled = totalSettled + firstOrder.getTotal_price();
+                   }
                }
            }
 
@@ -139,7 +138,7 @@ public class HistoryScreen extends AppCompatActivity{
            mRecyclerView.setAdapter(paymentAdapter);
            mRecyclerView.setVisibility(View.VISIBLE);
        }
-        totalUnSettled = totalTransactionWorth = totalSettled;
+        totalUnSettled = totalTransactionWorth - totalSettled;
 
         settledTextView.setText(String.format(Locale.ENGLISH,"%s%d",
                 getString(R.string.rupee), totalSettled));

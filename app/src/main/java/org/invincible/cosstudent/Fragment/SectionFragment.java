@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.invincible.cosstudent.OutletAdapter;
+import org.invincible.cosstudent.adapter.OutletAdapter;
 import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.misc.Outlet;
 import org.invincible.cosstudent.misc.UserLocalStore;

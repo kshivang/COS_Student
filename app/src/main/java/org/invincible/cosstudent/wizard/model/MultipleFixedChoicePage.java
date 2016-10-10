@@ -16,7 +16,7 @@ public class MultipleFixedChoicePage extends SingleFixedChoicePage {
 
     @Override
     public Fragment createFragment() {
-        return MultipleChoiceFragment.create(getKey());
+        return MultipleChoiceFragment.newInstance(getKey());
     }
 
     @Override

@@ -67,7 +67,7 @@ public class HomeScreen extends AppCompatActivity
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null)
-            actionBar.setTitle("");
+            actionBar.setTitle("Home");
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
