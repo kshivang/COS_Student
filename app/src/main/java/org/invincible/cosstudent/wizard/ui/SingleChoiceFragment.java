@@ -1,7 +1,6 @@
-
 package org.invincible.cosstudent.wizard.ui;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ListFragment;
@@ -85,7 +84,7 @@ public class SingleChoiceFragment extends ListFragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
 
         if (!(activity instanceof PageFragmentCallbacks)) {

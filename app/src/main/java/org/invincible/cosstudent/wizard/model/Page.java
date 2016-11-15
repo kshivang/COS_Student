@@ -15,15 +15,15 @@ public abstract class Page implements PageTreeNode {
     public static final String SIMPLE_DATA_KEY = "_";
     public static final String QTY_DATA_KEY = "Q";
 
-    protected ModelCallbacks mCallbacks;
+    private ModelCallbacks mCallbacks;
 
     /**
      * Current wizard values/selections.
      */
-    protected Bundle mData = new Bundle();
-    protected String mTitle;
-    protected boolean mRequired = false;
-    protected String mParentKey;
+    Bundle mData = new Bundle();
+    private String mTitle;
+    private boolean mRequired = false;
+    private String mParentKey;
 
     protected Page(ModelCallbacks callbacks, String title) {
         mCallbacks = callbacks;
@@ -68,7 +68,7 @@ public abstract class Page implements PageTreeNode {
         return true;
     }
 
-    public void resetData(Bundle data) {
+    void resetData(Bundle data) {
         mData = data;
         notifyDataChanged();
     }

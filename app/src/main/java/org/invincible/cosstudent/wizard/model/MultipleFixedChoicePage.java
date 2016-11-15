@@ -23,17 +23,19 @@ public class MultipleFixedChoicePage extends SingleFixedChoicePage {
     public void getReviewItems(ArrayList<ReviewItem> dest) {
         StringBuilder sb = new StringBuilder();
 
-        ArrayList<String> selections = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
-        if (selections != null && selections.size() > 0) {
-            for (String selection : selections) {
-                if (sb.length() > 0) {
-                    sb.append(", ");
-                }
-                sb.append(selection);
-            }
-        }
+        ArrayList<String> selectionValue = mData.getStringArrayList(Page.SIMPLE_DATA_KEY);
+        ArrayList<Integer> selectionQuantity = mData.getIntegerArrayList(Page.QTY_DATA_KEY);
 
-        dest.add(new ReviewItem(getTitle(), sb.toString(), getKey()));
+//        if (selectionValue != null && selectionValue.size() > 0) {
+//            for (String selection : selectionValue) {
+//                if (sb.length() > 0) {
+//                    sb.append(", ");
+//                }
+//                sb.append(selection);
+//            }
+//        }
+
+        dest.add(new ReviewItem(getTitle(), selectionValue, getKey(), selectionQuantity));
     }
 
     @Override

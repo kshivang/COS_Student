@@ -13,9 +13,9 @@ import java.util.List;
  * A page offering the user a number of mutually exclusive choices.
  */
 public class SingleFixedChoicePage extends Page {
-    protected ArrayList<MenuItem> mChoices = new ArrayList<>();
+    private ArrayList<MenuItem> mChoices = new ArrayList<>();
 
-    public SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
+    SingleFixedChoicePage(ModelCallbacks callbacks, String title) {
         super(callbacks, title);
     }
 
@@ -38,7 +38,8 @@ public class SingleFixedChoicePage extends Page {
 
     @Override
     public void getReviewItems(ArrayList<ReviewItem> dest) {
-        dest.add(new ReviewItem(getTitle(), mData.getString(SIMPLE_DATA_KEY), getKey()));
+        dest.add(new ReviewItem(getTitle(), mData.getStringArrayList(SIMPLE_DATA_KEY), getKey(),
+                mData.getIntegerArrayList(QTY_DATA_KEY)));
     }
 
     @Override

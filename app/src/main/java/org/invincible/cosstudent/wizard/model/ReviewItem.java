@@ -1,33 +1,37 @@
 package org.invincible.cosstudent.wizard.model;
 
+import java.util.ArrayList;
+
 /**
  * Represents a single line item on the final review page.
  *
  */
 public class ReviewItem {
-    public static final int DEFAULT_WEIGHT = 0;
+    private static final int DEFAULT_WEIGHT = 0;
 
     private int mWeight;
     private String mTitle;
-    private String mDisplayValue;
+    private ArrayList<String> mDisplayValue;
+    private ArrayList<Integer> mQuantity;
     private String mPageKey;
 
-    public ReviewItem(String title, String displayValue, String pageKey) {
-        this(title, displayValue, pageKey, DEFAULT_WEIGHT);
+    ReviewItem(String title, ArrayList<String> displayValue, String pageKey, ArrayList<Integer> quantity) {
+        this(title, displayValue, pageKey, quantity, DEFAULT_WEIGHT);
     }
 
-    public ReviewItem(String title, String displayValue, String pageKey, int weight) {
+    private ReviewItem(String title, ArrayList<String> displayValue, String pageKey, ArrayList<Integer> quantity, int weight) {
         mTitle = title;
         mDisplayValue = displayValue;
         mPageKey = pageKey;
         mWeight = weight;
+        mQuantity = quantity;
     }
 
-    public String getDisplayValue() {
+    public ArrayList<String> getDisplayValue() {
         return mDisplayValue;
     }
 
-    public void setDisplayValue(String displayValue) {
+    public void setDisplayValue(ArrayList<String> displayValue) {
         mDisplayValue = displayValue;
     }
 
@@ -53,5 +57,13 @@ public class ReviewItem {
 
     public void setWeight(int weight) {
         mWeight = weight;
+    }
+
+    public ArrayList<Integer> getmQuantity() {
+        return mQuantity;
+    }
+
+    public void setmQuantity(ArrayList<Integer> mQuantity) {
+        this.mQuantity = mQuantity;
     }
 }

@@ -12,6 +12,7 @@ import org.invincible.cosstudent.appIntro.BriefIntro;
 
 /**
  * Created by kshivang on 01/10/16.
+ *
  */
 
 public class SplashScreen extends AppCompatActivity{

@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -64,6 +65,8 @@ public class OrderScreen extends AppCompatActivity implements
     private Outlet outlet;
     private ActionBar actionBar;
 
+    private RelativeLayout rlProgress_view;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
@@ -75,6 +78,8 @@ public class OrderScreen extends AppCompatActivity implements
 
         Intent fromIntent = getIntent();
         outlet = (Outlet)fromIntent.getSerializableExtra("outlet");
+
+        rlProgress_view = (RelativeLayout) findViewById(R.id.progress_bar_holder);
 
         onServerRequest(savedInstanceState);
 
@@ -98,12 +103,15 @@ public class OrderScreen extends AppCompatActivity implements
     private List<List<MenuItem>> menus = new ArrayList<>();
 
     private void onServerRequest(final Bundle savedInstanceState) {
+        rlProgress_view.setVisibility(View.VISIBLE);
 
         FirebaseDatabase.getInstance().getReference().child("restaurant")
-                .child(outlet.getKey()).child("menu").addListenerForSingleValueEvent(new ValueEventListener() {
+                .child(outlet.getKey()).child("menu")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null) {
+                    rlProgress_view.setVisibility(View.GONE);
                     int i = 0;
                     for (DataSnapshot menu : dataSnapshot.getChildren()) {
                         menus.add(i, new ArrayList<MenuItem>());
@@ -121,7 +129,7 @@ public class OrderScreen extends AppCompatActivity implements
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                rlProgress_view.setVisibility(View.GONE);
             }
         });
     }
@@ -141,7 +149,7 @@ public class OrderScreen extends AppCompatActivity implements
         mPager = (ViewPager) findViewById(R.id.pager);
         mPager.setAdapter(mPagerAdapter);
 
-        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 if (mConsumePageSelectedEvent) {

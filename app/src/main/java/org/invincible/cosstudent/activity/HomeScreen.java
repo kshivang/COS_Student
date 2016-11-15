@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,7 +19,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +36,8 @@ import org.invincible.cosstudent.misc.UserLocalStore;
 
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static org.invincible.cosstudent.R.array.section;
 
 /**
@@ -48,9 +50,8 @@ public class HomeScreen extends AppCompatActivity
     private NavigationView navigationView;
     private FirebaseAuth mAuth;
     private UserLocalStore userLocalStore;
-    private StudentModel studentModel;
     private TextView profileTId, profileName;
-    private ImageView profileImage;
+    private CircleImageView profileImage;
     private ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstances) {
@@ -58,7 +59,6 @@ public class HomeScreen extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
 
         mAuth = FirebaseAuth.getInstance();
-        studentModel = new StudentModel();
         userLocalStore = new UserLocalStore(HomeScreen.this);
         onClassSection(userLocalStore.getUid());
 
@@ -82,10 +82,13 @@ public class HomeScreen extends AppCompatActivity
             navigationView.setNavigationItemSelectedListener(this);
 
             //Navigation Bar HeaderView
-            View headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
-            profileImage = (ImageView) headerView.findViewById(R.id.img_home_profile);
-            profileName = (TextView) headerView.findViewById(R.id.text_home_name);
-            profileTId = (TextView) headerView.findViewById(R.id.tid);
+            NavigationView headerView = (NavigationView) navigationView
+                    .inflateHeaderView(R.layout.nav_header_home);
+            if (headerView!= null) {
+                profileImage = (CircleImageView) headerView.findViewById(R.id.img_profile);
+                profileName = (TextView) headerView.findViewById(R.id.text_name);
+                profileTId = (TextView) headerView.findViewById(R.id.tid);
+            }
 
             headerView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -177,21 +180,11 @@ public class HomeScreen extends AppCompatActivity
                 });
     }
 
-    private void onSectionContentListener() {
-
-    }
-
-
-    public StudentModel getStudentModel() {
-        return studentModel;
-    }
-
-
     private void onLogout() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirm Logout");
         builder.setMessage("Are your sure to logout?");
-        builder.setIcon(getResources().getDrawable(R.drawable.ic_logout));
+        builder.setIcon(ContextCompat.getDrawable(HomeScreen.this, R.drawable.ic_logout));
         builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -216,5 +209,4 @@ public class HomeScreen extends AppCompatActivity
                 .placeholder(R.drawable.placeholder_profile)
                 .into(profileImage);
     }
-
 }
