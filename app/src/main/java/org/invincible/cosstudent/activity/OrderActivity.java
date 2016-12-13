@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class OrderScreen extends AppCompatActivity implements
+public class OrderActivity extends AppCompatActivity implements
         PageFragmentCallbacks,
         ReviewFragment.Callbacks,
         MenuFragment.Callbacks,
@@ -303,7 +303,7 @@ public class OrderScreen extends AppCompatActivity implements
 
         final UserLocalStore userLocalStore = new UserLocalStore(this);
          new android.support.v7.app.AlertDialog
-                 .Builder(OrderScreen.this)
+                 .Builder(OrderActivity.this)
                  .setNegativeButton("Recheck", new DialogInterface.OnClickListener() {
                      @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -373,7 +373,7 @@ public class OrderScreen extends AppCompatActivity implements
 
     public class MainMenu extends AbstractWizardModel {
         MainMenu() {
-            super(OrderScreen.this);
+            super(OrderActivity.this);
         }
 
         @Override

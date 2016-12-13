@@ -37,7 +37,7 @@ import org.invincible.cosstudent.misc.TextHandler;
  * Created by kshivang on 01/10/16.
  * Login Screen
  */
-public class LoginScreen extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -55,7 +55,7 @@ public class LoginScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstances) {
         super.onCreate(savedInstances);
 
-        setContentView(R.layout.activity_login_screen);
+        setContentView(R.layout.activity_login);
 
         btLogin = (Button) findViewById(R.id.login);
         tvForgotPassword = (TextView) findViewById(R.id.forgot_password);
@@ -63,7 +63,7 @@ public class LoginScreen extends AppCompatActivity {
         tilPassword = (TextInputLayout) findViewById(R.id.passwordInput);
         progressBar = (ProgressBar)  findViewById(R.id.progress_bar);
 
-        userLocalStore = new UserLocalStore(LoginScreen.this);
+        userLocalStore = new UserLocalStore(LoginActivity.this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -98,7 +98,7 @@ public class LoginScreen extends AppCompatActivity {
                     signIn(emailHandler.getValue(), etPassword.getText().toString());
                 } else {
                     btLogin.setVisibility(View.VISIBLE);
-                    Toast.makeText(LoginScreen.this,
+                    Toast.makeText(LoginActivity.this,
                             "Make sure that you entered your email and password correctly",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -117,7 +117,7 @@ public class LoginScreen extends AppCompatActivity {
                             Context.INPUT_METHOD_SERVICE);
                     inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-                startActivity(new Intent(LoginScreen.this, ForgotPasswordScreen.class));
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordScreen.class));
             }
         };
     }
@@ -187,14 +187,14 @@ public class LoginScreen extends AppCompatActivity {
                 Log.e("Login", e.getMessage());
                 if (e.getMessage().contains("Network Error")) {
 
-                    Toast.makeText(LoginScreen.this, "Internet not available," +
+                    Toast.makeText(LoginActivity.this, "Internet not available," +
                                     " Cross check your internet connectivity and try again ",
                             Toast.LENGTH_SHORT).show();
                 }else if(e.getMessage().contains("There is no user record corresponding to this identifier.")){
-                    Toast.makeText(LoginScreen.this, R.string.auth_failed,
+                    Toast.makeText(LoginActivity.this, R.string.auth_failed,
                             Toast.LENGTH_SHORT).show();
                 } else{
-                    Toast.makeText(LoginScreen.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -212,7 +212,7 @@ public class LoginScreen extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         if (studentModel == null) {
                             Log.e(TAG, "StudentInfo " + userId + " is unexpectedly null");
-                            Toast.makeText(LoginScreen.this,
+                            Toast.makeText(LoginActivity.this,
                                     "Error: could not fetch Your Info.",
                                     Toast.LENGTH_SHORT).show();
                         } else {
@@ -225,7 +225,7 @@ public class LoginScreen extends AppCompatActivity {
                         finish();
                         if (!homeActive) {
                             homeActive = true;
-                            startActivity(new Intent(LoginScreen.this, HomeScreen.class));
+                            startActivity(new Intent(LoginActivity.this, HomeScreen.class));
                         }
                         // [END_EXCLUDE]
                     }

@@ -38,8 +38,6 @@ import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static org.invincible.cosstudent.R.array.section;
-
 /**
  * Created by kshivang on 01/10/16.
  **/
@@ -88,21 +86,21 @@ public class HomeScreen extends AppCompatActivity
                 profileImage = (CircleImageView) headerView.findViewById(R.id.img_profile);
                 profileName = (TextView) headerView.findViewById(R.id.text_name);
                 profileTId = (TextView) headerView.findViewById(R.id.tid);
-            }
 
-            headerView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    drawer.closeDrawer(GravityCompat.START);
-//                    startActivity(new Intent(HomeScreen.this, ProfileScreen.class));
+                headerView.setOnClickListener(new View.OnClickListener() {
+                                                  @Override
+                                                  public void onClick(View view) {
+                        drawer.closeDrawer(GravityCompat.START);
+    //                    startActivity(new Intent(HomeScreen.this, ProfileScreen.class));
                 }
-            });
+                });
+            }
         }
 
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.primary_tabs);
         mViewPager = (ViewPager) findViewById(R.id.container);
 
-        final String[] sections = getResources().getStringArray(section);
+        final String[] sections = getResources().getStringArray(R.array.section);
 
         FragmentPagerAdapter adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -192,13 +190,12 @@ public class HomeScreen extends AppCompatActivity
                 userLocalStore.clearUserData();
                 userLocalStore.setFirstRun(false);
                 finish();
-                startActivity(new Intent(HomeScreen.this, LoginScreen.class));
+                startActivity(new Intent(HomeScreen.this, LoginActivity.class));
             }
         });
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }
-
 
     private void updateHeader(StudentModel studentModel){
         if(studentModel == null) return;

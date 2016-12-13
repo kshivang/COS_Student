@@ -23,23 +23,25 @@
         <activity android:name=".activity.ForgotPasswordScreen"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.LoginScreen"
+        <activity android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".appIntro.BriefIntro"
             android:label="@string/app_name"
             android:screenOrientation="portrait"/>
+
         <activity android:name=".activity.HomeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"/>
+
         <activity
-            android:name=".activity.OrderScreen"
+            android:name=".activity.OrderActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activity.HomeScreen"
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".activity.HistoryScreen"
+            android:name=".activity.HistoryActivity"
             android:label="@string/app_name"
             android:parentActivityName=".activity.HomeScreen"
             android:screenOrientation="portrait"

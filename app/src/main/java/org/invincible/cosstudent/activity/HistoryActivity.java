@@ -30,7 +30,7 @@ import java.util.Locale;
  * Created by kshivang on 02/10/16.
  */
 
-public class HistoryScreen extends AppCompatActivity{
+public class HistoryActivity extends AppCompatActivity{
 
     private RecyclerView mRecyclerView;
     private ProgressBar progressBar;

@@ -52,7 +52,7 @@ public class ForgotPasswordScreen extends AppCompatActivity {
         backToLogin = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ForgotPasswordScreen.this, LoginScreen.class));
+                startActivity(new Intent(ForgotPasswordScreen.this, LoginActivity.class));
             }
         };
 
@@ -83,7 +83,7 @@ public class ForgotPasswordScreen extends AppCompatActivity {
                                                 "has been sent to " + etEmail.getText().toString(),
                                                 Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(ForgotPasswordScreen.this,
-                                                LoginScreen.class));
+                                                LoginActivity.class));
                                     } else {
                                         btSend.setVisibility(View.VISIBLE);
                                     }

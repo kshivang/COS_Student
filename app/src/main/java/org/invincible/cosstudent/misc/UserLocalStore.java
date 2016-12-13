@@ -27,7 +27,7 @@ public class UserLocalStore {
 
     public void setFirstRun(boolean firstRun) {
         SharedPreferences.Editor spEditor = userLocalDatabase.edit();
-        spEditor.putBoolean(KEY_FIRST_RUN,firstRun);
+        spEditor.putBoolean(KEY_FIRST_RUN, firstRun);
         spEditor.apply();
     }
 

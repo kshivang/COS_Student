@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import org.invincible.cosstudent.activity.LoginScreen;
+import org.invincible.cosstudent.activity.LoginActivity;
 import org.invincible.cosstudent.R;
 import org.invincible.cosstudent.Fragment.SampleSlide;
 
@@ -23,7 +23,7 @@ public class BriefIntro extends BaseAppIntro {
     }
 
     private void loadMainActivity(){
-        Intent intent = new Intent(this, LoginScreen.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

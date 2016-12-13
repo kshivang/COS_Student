@@ -7,14 +7,14 @@ import java.io.Serializable;
  */
 
 public class Outlet implements Serializable{
-    Boolean credit;
-    Boolean delivery;
-    String location;
-    String delivery_time;
-    String name;
-    String src;
-    String type;
-    String key;
+    private Boolean credit;
+    private Boolean delivery;
+    private String location;
+    private String delivery_time;
+    private String name;
+    private String src;
+    private String type;
+    private String key;
 
     public Boolean getCredit() {
         return credit;

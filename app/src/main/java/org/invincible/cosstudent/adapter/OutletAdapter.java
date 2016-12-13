@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.invincible.cosstudent.R;
-import org.invincible.cosstudent.activity.HistoryScreen;
-import org.invincible.cosstudent.activity.OrderScreen;
+import org.invincible.cosstudent.activity.HistoryActivity;
+import org.invincible.cosstudent.activity.OrderActivity;
 import org.invincible.cosstudent.misc.Outlet;
 
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ import java.util.List;
 
 /**
  * Created by kshivang on 02/10/16.
+ *
  */
 
 public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.CustomViewHolder> {
@@ -50,13 +51,15 @@ public class OutletAdapter extends RecyclerView.Adapter<OutletAdapter.CustomView
         customViewHolder.btOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, OrderScreen.class).putExtra("outlet", outlet));
+                mContext.startActivity(new Intent(mContext,
+                        OrderActivity.class).putExtra("outlet", outlet));
             }
         });
         customViewHolder.btHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(new Intent(mContext, HistoryScreen.class).putExtra("outlet", outlet));
+                mContext.startActivity(new Intent(mContext,
+                        HistoryActivity.class).putExtra("outlet", outlet));
             }
         });
 
